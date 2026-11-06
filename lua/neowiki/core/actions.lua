@@ -641,14 +641,13 @@ M.delete_wiki_page = function()
         return link.find_and_transform_link_markup(
           line_content,
           context.target_filename_no_ext,
-          function(link_text, old_target)
-            if old_target then -- This is a markdown link: [text](target)
+          function(link_text, is_markdown)
+            if is_markdown then
               -- Extract the text from between the brackets.
               return link_text:match("^%[(.*)%]$") or ""
-            else -- This is a wikilink: [[text]]
-              -- The link_text is already the display text.
-              return link_text
             end
+            -- Keep the visible alias when removing a wikilink.
+            return link_text
           end
         )
       end
@@ -690,13 +689,16 @@ M.rename_wiki_page = function()
         return link.find_and_transform_link_markup(
           line_content,
           context.target_filename_no_ext,
-          function(link_text, old_target)
-            if old_target then -- Markdown link
+          function(link_text, is_markdown, _, alias)
+            if is_markdown then
               return link_text .. "(" .. new_relative_path .. ")"
-            else -- Wikilink
-              local new_link_text = vim.fn.fnamemodify(new_relative_path, ":r")
-              return "[[" .. new_link_text .. "]]"
             end
+
+            local new_link_target = vim.fn.fnamemodify(new_relative_path, ":r")
+            if alias and alias ~= "" then
+              return "[[" .. new_link_target .. "|" .. alias .. "]]"
+            end
+            return "[[" .. new_link_target .. "]]"
           end
         )
       end
