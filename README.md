@@ -19,6 +19,7 @@
 
 - **Effortless Linking & Navigation** 🔗  
   Create and follow markdown links with `<CR>`, split with `<S-CR>` or `<C-CR>`, and jump between links using `<Tab>`/`<S-Tab>`. Navigate page history like a browser with `[[` and `]]`, or return to `index.md` with `<BS>`.
+  Obsidian-style wikilinks are supported too: `[[Page]]` and `[[path/to/Page|Display name]]`. Rename and delete operations preserve aliases and update backlinks.
 
 - **Smart Task Management** ✅  
   Toggle tasks with `<leader>wt` (`[ ]` ↔ `[x]`) and track nested task progress in real-time with dynamic updates.
@@ -95,6 +96,7 @@ lua vim.keymap.set("n", "<leader>wT", require("neowiki").open_wiki_new_tab, { de
 2.  **Create Note**: Select text (e.g., “My Project”), press `<CR>` to create `[My Project](./My_Project.md)` and open it.
 3.  **Manage Tasks**: Use `<leader>wt` on a task line to toggle its status. Progress (e.g., `[ 75% ]`) will be displayed for parent items.
 4.  **Navigate**: Use `<Tab>`/`<S-Tab>` to jump between links, `<BS>` to return to the `index.md`, or `<leader>wr` to rename a page and update its links.
+5.  **Use Wikilinks**: Write `[[My Project]]` or `[[Projects/My Project|Project notes]]`; press `<CR>` on the link to open the page. The alias is displayed while the target stays linked to its file.
 5.  **Save**: Simply `:w`.
 
 ### Example Wiki Index
