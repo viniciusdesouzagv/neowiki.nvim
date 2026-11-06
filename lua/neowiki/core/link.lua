@@ -174,7 +174,7 @@ local function find_target_by_pattern(line, pattern_to_match)
     end
     search_pos = e + 1
     if target and target:find(pattern_to_match, 1, true) then
-      return target
+      return target:match("^([^|]*)")
     end
   end
 
@@ -195,7 +195,7 @@ local function find_target_at_cursor(line, col)
     end
     search_pos = e + 1
     if col >= s and col <= e then
-      return target
+      return target:match("^([^|]*)")
     end
   end
 
@@ -270,12 +270,17 @@ local function generic_link_transformer(line, transform_logic)
     })
   end)
 
-  -- 3. Handle wikilinks: [[target]]
+  -- 3. Handle wikilinks: [[target]] and [[target|alias]]
   line = line:gsub(PATTERN_WIKI, function(raw_target)
+    local target, alias = raw_target:match("^([^|]*)|(.*)$")
+    if not target then
+      target = raw_target
+    end
     return replacer({
       type = "wikilink",
-      display_text = raw_target,
-      raw_target = raw_target,
+      display_text = alias and alias ~= "" and alias or target,
+      raw_target = target,
+      alias = alias,
       full_markup = "[[" .. raw_target .. "]]",
     })
   end)
@@ -376,9 +381,9 @@ M.find_and_transform_link_markup = function(line, pattern_to_match, transform_fn
   return generic_link_transformer(line, function(contex)
     if contex.raw_target and contex.raw_target:find(pattern_to_match, 1, true) then
       if contex.type == "markdown" then
-        return transform_fn("[" .. contex.display_text .. "]", contex.raw_target)
+        return transform_fn("[" .. contex.display_text .. "]", true, contex.raw_target)
       else
-        return transform_fn(contex.display_text)
+        return transform_fn(contex.display_text, false, contex.raw_target, contex.alias)
       end
     end
     return nil
