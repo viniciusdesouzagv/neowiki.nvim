@@ -182,7 +182,7 @@ M.find_backlinks = function(search_path, target_filename)
   end
 
   local dynamic_ext_pattern = "(?:" .. table.concat(valid_exts, "|") .. ")?"
-  local strict_target_content = "(?:[\\w./\\\\]*)" .. fname_pattern .. dynamic_ext_pattern
+  local strict_target_content = "(?:[\\w./\\\\ -]*)" .. fname_pattern .. dynamic_ext_pattern
   local wikilink_format = "\\[\\[%s(?:\\|[^]]*)?\\]\\]"
   local mdlink_format = "\\[[^\\]]+\\]\\(%s\\)"
   local wikilink_part = string.format(wikilink_format, strict_target_content)
