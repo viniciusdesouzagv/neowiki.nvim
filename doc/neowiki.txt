@@ -33,6 +33,9 @@ Getting Things Done (GTD).
   Create and follow markdown links with <CR>, split with <S-CR> or <C-CR>.
   Jump between links with <Tab>/<S-Tab> and jump to the wiki index with
   <Backspace>.
+  Obsidian-style wikilinks are also supported: [[Page]] and
+  [[path/to/Page|Display name]]. Page renames preserve aliases and update
+  backlinks for both wikilinks and markdown links.
 
 - _Browse History_
   Navigate back and forth through your visited pages like a web browser using
