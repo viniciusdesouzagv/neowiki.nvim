@@ -694,7 +694,7 @@ M.rename_wiki_page = function()
               return link_text .. "(" .. new_relative_path .. ")"
             end
 
-            local new_link_target = vim.fn.fnamemodify(new_relative_path, ":r")
+            local new_link_target = new_relative_path
             if alias and alias ~= "" then
               return "[[" .. new_link_target .. "|" .. alias .. "]]"
             end
