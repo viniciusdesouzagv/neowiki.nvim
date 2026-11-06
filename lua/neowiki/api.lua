@@ -127,7 +127,8 @@ M.insert_wiki_link = function()
     local current_dir = vim.fn.fnamemodify(current_buf_path, ":p:h")
     local relative_path = util.get_relative_path(current_dir, selected_path)
     local link_name = vim.fn.fnamemodify(selected_path, ":t:r") -- Filename without extension
-    local link_text = string.format("[%s](%s)", link_name, relative_path)
+    local link_target = relative_path
+    local link_text = string.format("[[%s|%s]]", link_target, link_name)
 
     -- Get the current cursor line to insert the new link below it.
     local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
